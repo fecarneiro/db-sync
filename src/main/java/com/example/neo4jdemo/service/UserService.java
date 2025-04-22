@@ -1,14 +1,14 @@
 package com.example.neo4jdemo.service;
 
 import com.example.neo4jdemo.dto.UserDTO;
+import com.example.neo4jdemo.mapper.UserMapper;
 import com.example.neo4jdemo.model.User;
 import com.example.neo4jdemo.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-
-import java.util.List;
-
 @Service
+@Transactional
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -18,9 +18,10 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public User createUser(UserDTO userDto) {
+    public UserDTO createUser(UserDTO userDto) {
         User user = userMapper.toEntity(userDto);
         user = userRepository.save(user);
-        return userMapper.toDto(user)
+        return userMapper.toDto(user);
     }
+
 }
