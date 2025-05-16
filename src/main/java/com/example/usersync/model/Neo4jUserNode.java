@@ -11,16 +11,12 @@ import org.springframework.data.neo4j.core.schema.Node;
 @Setter
 @NoArgsConstructor
 public class Neo4jUserNode {
-
     @Id
     private Long id;
-
     private String username;
 
     public Neo4jUserNode(Long id, String username) {
         this.id = id;
         this.username = username;
     }
-
-
 }

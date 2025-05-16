@@ -44,6 +44,7 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    // Get User by ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         Optional<PostgresUserEntity> userOpt = postgresUserService.getUserById(id);
@@ -55,7 +56,7 @@ public class UserController {
         }
     }
 
-
+    // Update User
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDTO userDto) {
         try {
