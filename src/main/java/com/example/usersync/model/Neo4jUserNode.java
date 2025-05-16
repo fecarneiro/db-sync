@@ -5,6 +5,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Relationship;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Node("User")
 @Getter
@@ -14,6 +18,9 @@ public class Neo4jUserNode {
     @Id
     private Long id;
     private String username;
+
+    @Relationship(type = "FRIENDSHIP", direction = Relationship.Direction.OUTGOING)
+    private List<FriendshipRelationship> friendships = new ArrayList<>();
 
     public Neo4jUserNode(Long id, String username) {
         this.id = id;
