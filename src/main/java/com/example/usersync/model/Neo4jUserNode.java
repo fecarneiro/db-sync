@@ -26,4 +26,27 @@ public class Neo4jUserNode {
         this.id = id;
         this.username = username;
     }
+
+    public void requestFriendship(Neo4jUserNode targetUser) {
+        FriendshipRelationship friendship = new FriendshipRelationship(targetUser);
+        this.friendships.add(friendship);
+    }
+
+    public List<FriendshipRelationship> getPendingFriendships() {
+        return friendships.stream()
+                .filter(f -> f.getStatus() == FriendshipRelationship.FriendshipStatus.PENDING)
+                .toList();
+    }
+
+    public List<FriendshipRelationship> getAcceptedFriendships() {
+        return friendships.stream()
+                .filter(f -> f.getStatus() == FriendshipRelationship.FriendshipStatus.ACCEPTED)
+                .toList();
+    }
+
+    public List<FriendshipRelationship> getRejectedFriendships() {
+        return friendships.stream()
+                .filter(f -> f.getStatus() == FriendshipRelationship.FriendshipStatus.REJECTED)
+                .toList();
+    }
 }
