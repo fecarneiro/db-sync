@@ -9,18 +9,31 @@ services:
       - postgres
       - neo4j
     environment:
+      # Postgres configuration
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+      # Neo4j configuration
       SPRING_NEO4J_URI: bolt://neo4j:7687
+      SPRING_NEO4J_AUTHENTICATION_USERNAME: neo4j
+      SPRING_NEO4J_AUTHENTICATION_PASSWORD: abcd1234
+    networks:
+      - spring-network
 
   postgres:
     image: postgres:15
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: postgres
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - spring-network
 
   neo4j:
     image: neo4j:5
@@ -31,7 +44,13 @@ services:
       - "7687:7687"
     volumes:
       - neo4j_data:/data
+    networks:
+      - spring-network
 
 volumes:
   postgres_data:
   neo4j_data:
+
+networks:
+  spring-network:
+    driver: bridge

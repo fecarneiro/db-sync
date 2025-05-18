@@ -1,6 +1,5 @@
 package com.example.usersync.controller;
 
-import com.example.usersync.dto.UserDTO;
 import com.example.usersync.model.PostgresUserEntity;
 import com.example.usersync.service.UserSyncService;
 import org.springframework.http.HttpStatus;
@@ -21,11 +20,11 @@ public class UserController {
 
     // Create User
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody UserDTO userDto) {
+    public ResponseEntity<?> createUser(@RequestBody PostgresUserEntity user) {
         try {
             PostgresUserEntity createdUser = userSyncService.createUser(
-                    userDto.getUsername(),
-                    userDto.getPassword()
+                    user.getUsername(),
+                    user.getPassword()
             );
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
         } catch (Exception e) {
@@ -55,14 +54,14 @@ public class UserController {
 
     // Update User
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDTO userDto) {
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody PostgresUserEntity user) {
         try {
-            PostgresUserEntity updateUser = userSyncService.updateUser(
+            PostgresUserEntity updatedUser = userSyncService.updateUser(
                     id,
-                    userDto.getUsername(),
-                    userDto.getPassword()
+                    user.getUsername(),
+                    user.getPassword()
             );
-            return ResponseEntity.ok(updateUser);
+            return ResponseEntity.ok(updatedUser);
         } catch (Exception e) {
             if (e.getMessage().contains("not found")) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)

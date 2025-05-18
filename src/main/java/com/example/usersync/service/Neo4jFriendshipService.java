@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public abstract class Neo4jFriendshipService {
+public class Neo4jFriendshipService {
     private final Neo4jUserRepository userRepository;
 
     public Neo4jFriendshipService(Neo4jUserRepository userRepository) {
