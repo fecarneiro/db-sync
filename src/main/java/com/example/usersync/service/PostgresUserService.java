@@ -12,8 +12,11 @@ import java.util.Optional;
 @Service
 public class PostgresUserService {
 
-    @Autowired
-    private PostgresUserRepository userRepository;
+    private final PostgresUserRepository userRepository;
+
+    public PostgresUserService(PostgresUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Transactional("postgresTransactionManager")
     public PostgresUserEntity createUser(String username, String password) {

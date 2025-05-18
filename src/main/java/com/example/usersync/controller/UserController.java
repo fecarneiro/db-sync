@@ -2,9 +2,7 @@ package com.example.usersync.controller;
 
 import com.example.usersync.dto.UserDTO;
 import com.example.usersync.model.PostgresUserEntity;
-import com.example.usersync.service.PostgresUserService;
 import com.example.usersync.service.UserSyncService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +13,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+    private final UserSyncService userSyncService;
 
-    @Autowired
-    private UserSyncService userSyncService;
-
-    @Autowired
-    private PostgresUserService postgresUserService;
+    public UserController(UserSyncService userSyncService) {
+        this.userSyncService = userSyncService;
+    }
 
     // Create User
     @PostMapping
@@ -40,14 +37,14 @@ public class UserController {
     // Get All Users
     @GetMapping
     public ResponseEntity<List<PostgresUserEntity>> getAllUsers() {
-        List<PostgresUserEntity> users = postgresUserService.getAllUsers();
+        List<PostgresUserEntity> users = userSyncService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
     // Get User by ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        Optional<PostgresUserEntity> userOpt = postgresUserService.getUserById(id);
+        Optional<PostgresUserEntity> userOpt = userSyncService.getUserById(id);
         if (userOpt.isPresent()) {
             return ResponseEntity.ok(userOpt.get());
         } else {

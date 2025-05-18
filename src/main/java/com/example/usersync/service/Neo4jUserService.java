@@ -9,8 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class Neo4jUserService {
 
-    @Autowired
-    private Neo4jUserRepository userRepository;
+    private final Neo4jUserRepository userRepository;
+
+    public Neo4jUserService(Neo4jUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Transactional("neo4jTransactionManager")
     public void createUser(Long id, String username) {

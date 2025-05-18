@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserSyncService {
 
@@ -28,6 +31,18 @@ public class UserSyncService {
             throw new RuntimeException("Failed to create user in Neo4j. Rolling back PostgresSQL", e);
         }
         return pgUser;
+    }
+
+    // Get all Users
+    @Transactional(readOnly = true, value = "postgresTransactionManager")
+    public List<PostgresUserEntity> getAllUsers() {
+        return postgresUserService.getAllUsers();
+    }
+
+    // Get User by ID
+    @Transactional(readOnly = true, value = "postgresTransactionManager")
+    public Optional<PostgresUserEntity> getUserById(Long id) {
+        return postgresUserService.getUserById(id);
     }
 
     // Update User
