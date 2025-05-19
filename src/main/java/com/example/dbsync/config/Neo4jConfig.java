@@ -8,7 +8,7 @@ import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 
 @Configuration
 @EnableNeo4jRepositories(
-        basePackages = "com.example.dbsync.repository.neo4j",
+        basePackages = "com.example.dbsync.user.repository",
         transactionManagerRef = "neo4jTransactionManager"
 )
 

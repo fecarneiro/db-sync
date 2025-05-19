@@ -10,7 +10,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = "com.example.dbsync.repository.postgres",
+        basePackages = "com.example.dbsync.user.repository",
         transactionManagerRef = "postgresTransactionManager"
 )
 
