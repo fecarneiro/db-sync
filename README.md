@@ -1,9 +1,12 @@
+Lamento que esteja tendo problemas para copiar e colar. O conteúdo abaixo está formatado como um único bloco de código Markdown. Tente copiar o bloco inteiro de uma vez.
+
 # db-sync
 
-A modern Java Spring Boot application for synchronizing user data across PostgreSQL and Neo4j databases. Built with Docker, Maven, and Java 21 for seamless local development and deployment.
+A modern Java Spring Boot application for synchronizing user data between PostgreSQL and Neo4j databases. Built with Docker, Maven, and Java 21 for seamless local development and deployment.
 
 ![Java](https://img.shields.io/badge/Java-21-blue)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.4-brightgreen)
+![Maven](https://img.shields.io/badge/Maven-managed-red)
 ![Docker](https://img.shields.io/badge/Docker-Ready-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
@@ -11,19 +14,36 @@ A modern Java Spring Boot application for synchronizing user data across Postgre
 
 ## 🚀 Features
 
-- RESTful API with Spring Boot
-- Dual database support: PostgreSQL (relational) & Neo4j (graph)
-- Dockerized for fast local setup
-- Automatic schema management with Hibernate
-- Easy configuration via environment variables
+-   RESTful API with Spring Boot.
+-   Dual database support: PostgreSQL (relational) and Neo4j (graph).
+-   Friendship relationship management (Neo4j).
+-   Dockerized for fast local setup.
+-   Automatic schema management with Hibernate for PostgreSQL.
+-   Easy configuration via `application.properties` or environment variables.
+-   Separate transaction management for PostgreSQL and Neo4j.
+
+---
+
+## 🛠️ Technologies Used
+
+-   **Java 21**
+-   **Spring Boot 3.4.4**
+    -   Spring Web
+    -   Spring Data JPA
+    -   Spring Data Neo4j
+-   **PostgreSQL**: Relational database.
+-   **Neo4j**: Graph database.
+-   **Maven**: Dependency management and build tool.
+-   **Docker & Docker Compose**: Containerization and service orchestration.
+-   **Lombok**: Boilerplate code reduction.
 
 ---
 
 ## 📦 Prerequisites
 
-- [Java 21+](https://adoptium.net/)
-- [Maven 3.9+](https://maven.apache.org/)
-- [Docker & Docker Compose](https://docs.docker.com/compose/)
+-   [Java 21+](https://adoptium.net/)
+-   [Maven 3.9+](https://maven.apache.org/)
+-   [Docker & Docker Compose](https://docs.docker.com/compose/)
 
 ---
 
@@ -37,81 +57,120 @@ cd db-sync
 docker-compose up --build
 ```
 
-- API: [http://localhost:8080](http://localhost:8080)
-- PostgreSQL: `localhost:5432` (user: `postgres`, password: `1234`)
-- Neo4j: [http://localhost:7474](http://localhost:7474) (user: `neo4j`, password: `abcd1234`)
+-   API: [http://localhost:8080](http://localhost:8080)
+-   PostgreSQL: `localhost:5432` (user: `postgres`, password: `1234`)
+-   Neo4j Browser: [http://localhost:7474](http://localhost:7474) (user: `neo4j`, password: `abcd1234`)
+-   Neo4j Bolt: `bolt://localhost:7687`
 
 ---
 
 ## ⚙️ Configuration
 
-Main environment variables (see `docker-compose.yml`):
+The main application settings can be found in `src/main/resources/application.properties`.
 
-- `SPRING_DATASOURCE_URL` — PostgreSQL JDBC URL
-- `SPRING_NEO4J_URI` — Neo4j Bolt URI
+Environment variables (see `docker-compose.yml` for examples):
 
-You can also adjust settings in `src/main/resources/application.properties`.
+-   `SPRING_DATASOURCE_URL`: PostgreSQL JDBC URL.
+-   `SPRING_DATASOURCE_USERNAME`: PostgreSQL username.
+-   `SPRING_DATASOURCE_PASSWORD`: PostgreSQL password.
+-   `SPRING_NEO4J_URI`: Neo4j Bolt URI.
+-   `SPRING_NEO4J_AUTHENTICATION_USERNAME`: Neo4j username.
+-   `SPRING_NEO4J_AUTHENTICATION_PASSWORD`: Neo4j password.
+
+The application uses separate transaction manager configurations for PostgreSQL (`PostgresConfig.java`) and Neo4j (`Neo4jConfig.java`), allowing atomic operations in each database independently.
 
 ---
 
 ## 🗂️ Project Structure
 
-- `src/main/java` — Application source code
-- `src/main/resources` — Configuration files
-- `Dockerfile` — Multi-stage build for the app
-- `docker-compose.yml` — Service orchestration
-- `pom.xml` — Maven dependencies and build config
+-   `src/main/java/com/example/dbsync`: Application source code.
+    -   `config`: Configuration classes for Beans, JPA, Neo4j, and transaction managers.
+    -   `user`: Entities (PostgreSQL and Neo4j), repositories, services, and controllers related to users.
+    -   `friendship`: Models, services, and controllers for managing friendship relationships in Neo4j.
+-   `src/main/resources`: Configuration files, including `application.properties`.
+-   `Dockerfile`: Defines the multi-stage Docker image for the application.
+-   `docker-compose.yml`: Orchestrates the application services (app, PostgreSQL, Neo4j).
+-   `pom.xml`: Maven configuration, dependencies, and build plugins.
 
 ---
 
-## 🧪 API Usage (CRUD Examples)
+## 🧪 API Usage
+
+The base prefix for all API endpoints is `/api`.
+
+### Users (`/users`)
 
 Replace `{id}` with the actual user ID.
 
-### Create User
+**Create User**
 
 ```bash
-curl -X POST http://localhost:8080/users \
+curl -X POST http://localhost:8080/api/users \
   -H "Content-Type: application/json" \
   -d '{"username":"alice","password":"secret"}'
 ```
 
-### Read All Users
+**List All Users**
 
 ```bash
-curl http://localhost:8080/users
+curl http://localhost:8080/api/users
 ```
 
-### Read User by ID
+**Get User by ID**
 
 ```bash
-curl http://localhost:8080/users/{id}
+curl http://localhost:8080/api/users/{id}
 ```
 
-### Update User
+**Update User**
 
 ```bash
-curl -X PUT http://localhost:8080/users/{id} \
+curl -X PUT http://localhost:8080/api/users/{id} \
   -H "Content-Type: application/json" \
   -d '{"username":"alice_updated","password":"newpass"}'
 ```
 
-### Delete User
+**Delete User**
 
 ```bash
-curl -X DELETE http://localhost:8080/users/{id}
+curl -X DELETE http://localhost:8080/api/users/{id}
+```
+
+### Friendships (`/friendships`)
+
+**Request Friendship**
+
+```bash
+curl -X POST "http://localhost:8080/api/friendships/request?sourceUserId=1&targetUserId=2"
+```
+
+**Accept Friendship**
+
+```bash
+curl -X POST "http://localhost:8080/api/friendships/accept?sourceUserId=1&targetUserId=2"
+```
+
+**Reject Friendship**
+
+```bash
+curl -X POST "http://localhost:8080/api/friendships/reject?sourceUserId=1&targetUserId=2"
 ```
 
 ---
 
-## 🛠️ Development
+## 🛠️ Development (Local, without Docker)
 
-Build and run locally (without Docker):
+To build and run the application locally without Docker:
 
-```bash
-mvn clean package
-java -jar target/*.jar
-```
+1.  Ensure PostgreSQL and Neo4j instances are running and accessible as configured in `application.properties`.
+2.  Compile and package the application:
+    ```bash
+    mvn clean package
+    ```
+3.  Run the generated JAR:
+    ```bash
+    java -jar target/db-sync-0.0.1-SNAPSHOT.jar
+    ```
 
 ---
 
@@ -124,5 +183,4 @@ Contributions are welcome! Please open issues or submit pull requests.
 ## 📄 License
 
 This project is licensed under the MIT License.
-
----
+```
