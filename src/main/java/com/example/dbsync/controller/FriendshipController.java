@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/friendship")
+@RequestMapping("/api/friendships")
 public class FriendshipController {
 
     private final FriendshipService friendshipService;
