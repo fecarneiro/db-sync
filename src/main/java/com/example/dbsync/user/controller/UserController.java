@@ -12,17 +12,17 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    private final UserService userSyncService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
-        this.userSyncService = userService;
+        this.userService = userService;
     }
 
     // Create User
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody UserEntity user) {
         try {
-            UserEntity createdUser = userSyncService.createUser(
+            UserEntity createdUser = userService.createUser(
                     user.getUsername(),
                     user.getPassword()
             );
@@ -36,14 +36,14 @@ public class UserController {
     // Get All Users
     @GetMapping
     public ResponseEntity<List<UserEntity>> getAllUsers() {
-        List<UserEntity> users = userSyncService.getAllUsers();
+        List<UserEntity> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
     // Get User by ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        Optional<UserEntity> userOpt = userSyncService.getUserById(id);
+        Optional<UserEntity> userOpt = userService.getUserById(id);
         if (userOpt.isPresent()) {
             return ResponseEntity.ok(userOpt.get());
         } else {
@@ -56,7 +56,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserEntity user) {
         try {
-            UserEntity updatedUser = userSyncService.updateUser(
+            UserEntity updatedUser = userService.updateUser(
                     id,
                     user.getUsername(),
                     user.getPassword()
@@ -76,7 +76,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         try {
-            userSyncService.deleteUser(id);
+            userService.deleteUser(id);
             return ResponseEntity.ok("User deleted successfully");
         } catch (Exception e) {
             if (e.getMessage().contains("not found")) {
