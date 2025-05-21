@@ -1,17 +1,22 @@
 package com.example.dbsync.friendship.service;
 
+import com.example.dbsync.friendship.event.FriendshipRequestedEvent;
 import com.example.dbsync.friendship.model.FriendshipRelationship;
 import com.example.dbsync.user.model.UserNode;
 import com.example.dbsync.user.repository.UserNodeRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class FriendshipService {
-    private final UserNodeRepository userRepository;
 
-    public FriendshipService(UserNodeRepository userNodeRepository) {
+    private final UserNodeRepository userRepository;
+    private final ApplicationEventPublisher eventPublisher;
+
+    public FriendshipService(UserNodeRepository userNodeRepository, ApplicationEventPublisher eventPublisher) {
         this.userRepository = userNodeRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     // Request friendship
@@ -25,6 +30,10 @@ public class FriendshipService {
 
         sourceUser.requestFriendship(targetUser);
         userRepository.save(sourceUser);
+
+        // Publish event
+        FriendshipRequestedEvent event = new FriendshipRequestedEvent(sourceUserId, targetUserId);
+        eventPublisher.publishEvent(event);
     }
 
     // Accept friendship

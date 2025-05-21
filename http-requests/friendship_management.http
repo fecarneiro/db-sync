@@ -1,0 +1,14 @@
+### Request Friendship
+# Sends a friendship request from a source user to a target user.
+# Replace X and Y with actual user IDs.
+POST http://localhost:8080/api/friendships/request?sourceUserId=19&targetUserId=22
+
+### Accept Friendship
+# Accepts a pending friendship request.
+# Replace X and Y with actual user IDs corresponding to an existing PENDING request.
+POST http://localhost:8080/api/friendships/accept?sourceUserId=15&targetUserId=16
+
+### Reject Friendship
+# Rejects a pending friendship request.
+# Replace X and Y with actual user IDs corresponding to an existing PENDING request.
+POST http://localhost:8080/api/friendships/reject?sourceUserId=3&targetUserId=1

@@ -1,0 +1,32 @@
+### Get all users
+GET http://localhost:8080/api/users
+
+### Get user by ID (replace {userId} with an actual ID)
+GET http://localhost:8080/api/users/3
+# Note: You can use variables here too
+# @userId = 3
+# GET http://localhost:8080/api/users/{{userId}}
+
+
+### Create a new user
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "username": "newUserFromHttp_{{$uuid}}",
+  "password": "securePassword"
+}
+
+### Update user (replace {userId} with an actual ID)
+# @userIdToUpdate = 3
+PUT http://localhost:8080/api/users/{{userIdToUpdate}}
+Content-Type: application/json
+
+{
+  "username": "updatedUserFromHttp",
+  "password": "newSecurePassword"
+}
+
+### Delete user (replace {userId} with an actual ID)
+# @userIdToDelete = 4
+DELETE http://localhost:8080/api/users/{{userIdToDelete}}
