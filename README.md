@@ -1,5 +1,3 @@
-Lamento que esteja tendo problemas para copiar e colar. O conteúdo abaixo está formatado como um único bloco de código Markdown. Tente copiar o bloco inteiro de uma vez.
-
 # db-sync
 
 A modern Java Spring Boot application for synchronizing user data between PostgreSQL and Neo4j databases. Built with Docker, Maven, and Java 21 for seamless local development and deployment.
