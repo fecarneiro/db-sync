@@ -18,15 +18,15 @@ Content-Type: application/json
 }
 
 ### Update user (replace {userId} with an actual ID)
-# @userIdToUpdate = 3
-PUT http://localhost:8080/api/users/{{userIdToUpdate}}
+# @userIdToUpdate = 24
+PUT http://localhost:8080/api/users/25
 Content-Type: application/json
 
 {
-  "username": "updatedUserFromHttp",
+  "username": "updatedUserFromHttp3333",
   "password": "newSecurePassword"
 }
 
 ### Delete user (replace {userId} with an actual ID)
 # @userIdToDelete = 4
-DELETE http://localhost:8080/api/users/{{userIdToDelete}}
+DELETE http://localhost:8080/api/users/21

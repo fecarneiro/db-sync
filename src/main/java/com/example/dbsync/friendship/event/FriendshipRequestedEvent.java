@@ -1,5 +1,8 @@
 package com.example.dbsync.friendship.event;
 
+import lombok.Getter;
+
+@Getter
 public class FriendshipRequestedEvent {
 
     private final Long sourceUserId;
@@ -8,13 +11,5 @@ public class FriendshipRequestedEvent {
     public FriendshipRequestedEvent(Long sourceUserId, Long targetUserId) {
         this.sourceUserId = sourceUserId;
         this.targetUserId = targetUserId;
-    }
-
-    public Long getSourceUserId() {
-        return sourceUserId;
-    }
-
-    public Long getTargetUserId() {
-        return targetUserId;
     }
 }

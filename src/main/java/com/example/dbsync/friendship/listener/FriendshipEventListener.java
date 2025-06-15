@@ -17,6 +17,6 @@ public class FriendshipEventListener {
         Long targetUserId = event.getTargetUserId();
 
         // Log the event
-        logger.info("[EVENT NOTIFICATION] Friendship requested from user {} to user {}", sourceUserId, targetUserId);
+        logger.info("Friendship requested from user {} to user {}", sourceUserId, targetUserId);
     }
 }

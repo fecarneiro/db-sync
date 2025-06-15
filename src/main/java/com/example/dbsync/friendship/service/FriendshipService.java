@@ -31,8 +31,9 @@ public class FriendshipService {
         sourceUser.requestFriendship(targetUser);
         userRepository.save(sourceUser);
 
-        // Publish event
+        // Create event object
         FriendshipRequestedEvent event = new FriendshipRequestedEvent(sourceUserId, targetUserId);
+        // Publish event
         eventPublisher.publishEvent(event);
     }
 
@@ -70,3 +71,5 @@ public class FriendshipService {
         userRepository.save(sourceUser);
     }
 }
+
+
