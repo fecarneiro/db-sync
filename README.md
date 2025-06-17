@@ -1,6 +1,6 @@
 # Java Polyglot Persistence API
 
-A Spring Boot 3 and Java 21 REST API that powerfully demonstrates polyglot persistence, seamlessly synchronizing user data between relational (PostgreSQL) and graph (Neo4j) databases. This project tackles complex data management and relationship handling (e.g., friendships in Neo4j), featuring independent transaction configurations for each database and an optimized local development environment powered by Docker and Docker Compose.
+A powerful Spring Boot 3 and Java 21 REST API that demonstrates polyglot persistence architecture, seamlessly synchronizing user data between relational (PostgreSQL) and graph (Neo4j) databases. This project tackles complex data management and relationship handling with independent transaction configurations for each database.
 
 ![Java](https://img.shields.io/badge/Java-21-blue)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.4-brightgreen)
